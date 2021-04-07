@@ -1,24 +1,23 @@
 function book(name,author,pages,ron){ //book constructor function
-this.name=name;
-this.author=author;
-this.pages=pages;
-this.read=ron;
+	this.name=name;
+	this.author=author;
+	this.pages=pages;
+	this.read=ron;
 }
 
-let myLibrary=[];
 let ipid=0;
 
 const x=document.getElementById("add"); //add button to bring out the form
 const form=document.getElementById("bookDetails");
 const forma=document.getElementById("herelaysform");
 x.addEventListener("click",function(){
-x.classList.add("playing");
-setTimeout(function(){
-	x.classList.remove("playing");
-},80);
-bookDetails.style.cssText="visibility:visible;";
-formopen(forma);
-x.style.cssText="visibility:hidden;";
+	x.classList.add("playing");
+	setTimeout(function(){
+		x.classList.remove("playing");
+	},80);
+	bookDetails.style.cssText="visibility:visible;";
+	formopen(forma);
+	x.style.cssText="visibility:hidden;";
 });
 
 const buttonbehaviour=document.getElementById("cancelbutton");//cancel button
@@ -37,6 +36,7 @@ function formclose(somevar){ //closeform
 	document.getElementById("bookname").value="";
 	document.getElementById("author").value="";
 	document.getElementById("number").value="";
+	document.getElementById("yes").checked=false;
 }
 
 
@@ -46,7 +46,7 @@ addbook(a[0]);
 const bookdata=document.getElementById("addbutton"); // add book button functionality
 bookdata.addEventListener("click",function(){
 	const something=new book(document.getElementById("bookname").value,document.getElementById("author").value,
-		document.getElementById("number").value,"yes");
+		document.getElementById("number").value,readStatus());
 	a.push(something);
 	formclose(forma);
 	formopen(x);
@@ -64,7 +64,7 @@ bookdata.addEventListener("click",function(){
 
 
 function addbook(c){ //this function add a card on page
-a[ipid].id=ipid;
+	c.id=ipid;
 let b=document.createElement("div"); //div element and its id here plus array id
 b.classList.add("lol");
 document.getElementById("cards").appendChild(b);
@@ -108,23 +108,22 @@ b.appendChild(cstatus);
 
 cstatus.addEventListener("click",function(){  //-----------checkstatus
 	if(this.checked==true){
-		a[parseInt(this.id.slice(4,))].read="yes";
+		c.read="yes";
 		//----slicing ids to get work around just numbers with different elemets divs
 	}
 	if (this.checked==false) {
-		a[parseInt(this.id.slice(4,))].read="no";
+		c.read="no";
 		
 	}
 });
 
 close.addEventListener("click",function(){  //--------close button on cards
-	let sli=parseInt(this.id.slice(5,));
-	
-	delete a[sli]; //----------delets but leave an empty or undefined element in array
-	//a=a.filter(n =>n);    //---------------------------this clever method got to see how it works to remove empty array element
+	let slik=parseInt(this.id.slice(5,));
+	delete a[a.indexOf(c)]; //----------delets but leave an empty or undefined element in array
+	a=a.filter(n =>n);    //---------------------------this clever method got to see how it works to remove empty array element
 	//this thing caused an error due to it removing empties and my function is made for filling next numbers in array lol
 	//https://stackoverflow.com/questions/281264/remove-empty-elements-from-an-array-in-javascript
-	let remele=document.getElementById("b"+sli); //-------get you card div by id 
+	let remele=document.getElementById("b"+slik); //-------get you card div by id 
 	remele.remove();
 	console.log(a);
 });
@@ -132,3 +131,12 @@ close.addEventListener("click",function(){  //--------close button on cards
 
 }
 
+function readStatus(){
+	let rstatus=document.getElementById("yes");
+	if(rstatus.checked==true){
+		return("yes");
+	}
+	else{
+		return ("no");
+	}
+}
